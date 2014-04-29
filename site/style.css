@@ -355,8 +355,8 @@ top: 25px;
 }
 
 .moveToTheLeft {
- left:12%!important;
-    top:23%!important;
+ left:10%!important;
+    top:18%!important;
      -webkit-transition: left 1s, top 1s;
     z-index:300;
 }

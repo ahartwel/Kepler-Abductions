@@ -12,8 +12,8 @@ var theStory;
 
     
     
-     $.jsonp({
-    url: 'http://www.asterank.com/api/kepler?query={%22TPLANET%22:{%22$lt%22:350,%22$gt%22:240},%22RPLANET%22:{%22$lt%22:1.5,%22$gt%22:0.5},%22RSTAR%22:{%22$lt%22:1.5,%22$gt%22:0.}}&limit=50', // any JSON endpoint
+      $.jsonp({
+    url: 'http://www.asterank.com/api/kepler?query={%22TPLANET%22:{%22$lt%22:4000,%22$gt%22:200},%22RPLANET%22:{%22$lt%22:1.8,%22$gt%22:0.4},%22RSTAR%22:{%22$lt%22:1.8,%22$gt%22:0.4}}&limit=14', // any JSON endpoint
    
     success: function(data){
      

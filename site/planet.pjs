@@ -54,6 +54,8 @@ whichPlanet=theNumber;
 size(800,800);
 planetWidth=planets[whichPlanet].RPLANET*600;
  planetHeight=planets[whichPlanet].RPLANET*600;
+ planetWidth = constrain(planetWidth, 580,620);
+ console.log(planetWidth);
 iterations=0;
 theRealColor = (planets[whichPlanet].TPLANET-minColor)/(maxColor-minColor);
 drawThatShit();
