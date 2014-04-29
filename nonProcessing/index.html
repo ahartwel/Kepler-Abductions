@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<title>Planets : Built with Processing and Processing.js</title>
+
+		<!--[if lt IE 9]>
+			<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
+		<![endif]-->
+        <link href="style.css" rel="stylesheet" type="text/css">
+		<script src="processing.js" type="text/javascript"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+ <script src="jsonp.js"></script>
+		<script type="text/javascript">
+// convenience function to get the id attribute of generated sketch html element
+function getProcessingSketchId () { return 'Planets'; }
+</script>
+        
+
+	</head>
+	<body>
+		<div id="content">
+			<div>
+				<canvas id="Planets" data-processing-sources="Planets.pde" 
+						width="6000" height="6000">
+					<p>Your browser does not support the canvas tag.</p>
+					<!-- Note: you can put any alternative content here. -->
+				</canvas>
+				<noscript>
+					<p>JavaScript is required to view the contents of this page.</p>
+				</noscript>
+	  
+                
+                <script>
+    var planet;
+
+      
+
+       
+       $.jsonp({
+    url: 'http://www.asterank.com/api/kepler?query={%22TPLANET%22:{%22$lt%22:350,%22$gt%22:240},%22RPLANET%22:{%22$lt%22:1.5,%22$gt%22:0.5},%22RSTAR%22:{%22$lt%22:1.5,%22$gt%22:0.5}}&limit=50', // any JSON endpoint
+   
+    success: function(data){
+     console.log(data[0].A + " " + data.length);
+        
+        var high = data.length;
+        var rP = Math.floor(Math.random() * (high - 0 + 1)) + 0;
+        planet = data[rP];
+       
+    }
+    // error, etc.
+  });
+       
+       
+       
+
+   
+</script>
+                
+	</body>
+</html>

@@ -1,0 +1,207 @@
+//ALL THE 600s are WIDTHS OF THE CIRCLES
+
+/* @pjs transparent="true"; */
+int x1, x2, y1, y2;
+int whichPlanet;
+boolean justStarted=true;
+int iterations=0;
+ PImage thisPlanet;
+int maxIterations=3000;
+int planetWidth, planetHeight;
+int colorSelector;
+float theRealColor;
+boolean wiping=false;
+float maxRadius = 1.5;
+float minRadius = .5;
+float maxColor = 350;
+float minColor = 250;
+
+void setup() {
+  size(800, 800);
+  background(0, 0, 0, 0);
+ planetWidth=600;
+ planetHeight=600;
+  x1=-planetWidth/2;
+  y1=0;
+  x2=planetWidth/2;
+  y2=0;
+}
+
+
+
+void draw() {
+
+
+if (justStarted) {
+window.processingLoader();
+    justStarted=false;
+    
+    }
+    
+    if (wiping) {
+    background(0,0,0,0);
+    wiping=false;
+    }
+}
+
+
+
+
+void resizer(int theWidth, int theNumber) {
+console.log("the resizer!");
+background(0,0,0,0);
+whichPlanet=theNumber;   
+theRealColor = (planets[whichPlanet].TPLANET-minColor)/(maxColor-minColor);
+console.log(whichPlanet);
+console.log(theRealColor);
+console.log(planets[whichPlanet].TPLANET);
+drawThatShit();
+size(theWidth,theWidth);
+planetWidth = theWidth;
+background(0,0,0,0);
+image(thisPlanet,0,0,width,height);
+}
+
+void drawThatShit() {
+
+  noStroke();
+
+  if (iterations<maxIterations) {
+    pushMatrix();
+    translate(width/2, height/2);
+  
+    drawTriangle(2,2,2);
+    popMatrix();
+    justStarted=true;
+  
+   
+    thisPlanet=get(0, 0, width, height);
+  
+    background(0, 0, 0, 0);
+     size(thisPlanet.width,thisPlanet.height);
+    image(thisPlanet, 0, 0, width, height);
+    justStarted=false;
+  }
+
+}
+
+
+void drawTriangle(float radius, float temp, float sunRadius) {
+  while(iterations<maxIterations) {
+   color c1,c2;
+   c1 = lerpColor(color(230, 98, 41), color(125,87,230), theRealColor);
+   c2 = lerpColor(color(87, 115, 64), color(120,240,240), theRealColor);
+  color color1;
+  
+  color1 = lerpColor(c1,c2, random(0, 1));
+  fill(color1, 15);
+
+  float randomRot; 
+  randomRot=random(0, 360);
+  float randomHeight1, luck; 
+  randomHeight1 =random(-width/2, width/2);
+  luck = random(0, 1);
+  float randomHeight2=0;
+
+  float tx1, tx2, tx3, ty1, ty2, ty3;
+
+  if (luck>.5) {
+    randomHeight2=1-(dist(0, 0, 0, randomHeight1)/(planetWidth/2));
+
+    randomHeight2=randomHeight1+(randomHeight2*(planetWidth/2));
+  } 
+  else {
+
+    randomHeight2=1-(dist(0, 0, 0, randomHeight1)/(planetWidth/2));
+
+    randomHeight2=randomHeight1-(randomHeight2*(planetWidth/2));
+  }
+  randomHeight2 = constrain(randomHeight2, -planetWidth/2, planetWidth/2);
+  randomHeight1 = constrain(randomHeight1,  -planetWidth/2, planetWidth/2);
+
+
+  float randomPercent, randomPercent2, randomPercent3;
+  randomPercent = random(.7, .8);
+
+  randomPercent2 = randomPercent+random(0.05, .1);
+  randomPercent3 = random(.02, .2);
+
+  tx1 = bezierPoint(x1, x1, .5*x1, 0, randomPercent);
+  ty1 = bezierPoint(y1, .5*randomHeight1, randomHeight1, randomHeight1, randomPercent);
+  tx2 = bezierPoint(x1, x1, .5*x1, 0, randomPercent2);
+  ty2 = bezierPoint(y1, y1, .5*randomHeight1, randomHeight1, randomPercent2);
+  tx3 = bezierPoint(0, .5*x2, x2, x2, randomPercent3);
+  ty3 = bezierPoint(randomHeight2, randomHeight2, .5*randomHeight2, y2, randomPercent3);
+  tx1 = constrain(tx1, -planetWidth/2,planetWidth);
+  tx2 = constrain(tx2, -planetWidth/2,planetWidth);
+  tx3 = constrain(tx3, -planetWidth/2,planetWidth);
+  ty1 = constrain(ty1, -planetWidth/2,planetWidth);
+  ty2 = constrain(ty2, -planetWidth/2,planetWidth);
+  ty3 = constrain(ty3, -planetWidth/2,planetWidth);
+
+
+
+  rotate(randomRot);
+  triangle(tx1, ty1, tx2, ty2, tx3, ty3);
+  int opac = 12;
+  float ty4, tx4;
+  for (int i=0; i <10; i++) {
+    if (ty2<0) {
+      ty2+=1;
+      tx2+=1;
+      tx1+=1;
+      ty1+=1;
+      tx3+=1;
+      ty3+=1;
+      tx4=tx2;
+      ty4=ty2;
+        
+      fill(color1, opac);
+      float randomm; 
+      randomm = random(0, 1);
+      if (randomm<.25) {
+        // blendMode(ADD);
+        color1 = color(40,40,40);
+      } 
+      else if (randomm<.5) {
+        // blendMode(SCREEN);
+      }
+      fill(color1, opac);
+
+      triangle(tx1, ty1, tx2, ty2, tx3, ty3);
+      // blendMode(BLEND);
+
+      triangle(tx4, ty4, tx2, ty2, tx3, ty3);
+
+      opac-=1;
+    } 
+    else {
+      ty2-=1;
+      tx2-=1;
+      tx1-=1;
+      ty1-=1;
+      tx3-=1;
+      ty3-=1;
+      tx4=tx2;
+      ty4=ty2;
+
+
+
+      triangle(tx1, ty1, tx2, ty2, tx3, ty3);
+      //blendMode(BLEND);
+      fill(color1, opac);
+
+      triangle(tx4, ty4, tx2, ty2, tx4, ty4);
+      opac-=1;
+    }
+  }
+ 
+
+  iterations++;
+  }
+}
+
+
+
+
+
